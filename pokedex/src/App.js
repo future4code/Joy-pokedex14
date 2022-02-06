@@ -1,16 +1,16 @@
 import React from 'react';
 import {BrowserRouter,Switch, Route} from "react-router-dom";
-import { Home } from './components/Home';
+import {Home} from './components/Home';
 import {Pokedex} from './components/Pokedex';
 
-const App = () => {
+ const App = () => {
 
 return (
   <BrowserRouter>
 
   <Switch>  
 
-      <Route exact path={"/home"} component={Home}>
+      <Route exact path={"/"} component={Home}>
       
       </Route>
 

@@ -1,4 +1,4 @@
-import React, {  useState,useEffect } from 'react';
+import React, {  useState,useEffect} from 'react';
 import styled from 'styled-components'
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
@@ -12,12 +12,8 @@ align-items:center;
 `
 export const Home = () => {
 
-    const history = useHistory()
+        const history = useHistory()
   
-        const vaParaHome = ()=>{
-        history.push("/home");
-        }
-        
         const vaParaPokedex = ()=>{
         history.push("/pokedex");
         }
@@ -25,7 +21,7 @@ export const Home = () => {
     const [pokemon, setPokemon] = useState([])
   
     useEffect(() => { pegarPokemons()}, [])
-  
+
     const pegarPokemons = async () => {
   
       await
@@ -38,22 +34,26 @@ export const Home = () => {
             console.log(err.response)
           })
     }
-      
     return (
         
         <SecaoPokemons>
 
-        {/* <button onClick={vaParaHome}>Vá para a Home</button> */}
-        <button onClick={vaParaPokedex}>Vá para a PokeDex</button>  
+       
+        <button onClick={vaParaPokedex}>Vá para a Pokedex</button>  
 
 
         <h1>Lista de Pokemons</h1>
 
         {pokemon.map((poke)=>{
-
-            <p key={pokemon.name} >{pokemon.name}</p>
+          return (
 
             
+            <p key={poke.name} >{poke.name}</p>
+           
+          
+            /* <img src={data.sprites["front_default"]}/> */
+            
+          )
         })}
 
         </SecaoPokemons>
