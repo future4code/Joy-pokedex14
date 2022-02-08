@@ -11,8 +11,9 @@ export const Home = () => {
         history.push("/pokedex");
         }
 
+
     const [pokemon, setPokemon] = useState([])
-  
+
     useEffect(() => { pegarPokemons()}, [])
 
     const pegarPokemons = async () => {
@@ -34,16 +35,16 @@ export const Home = () => {
        
         <BotaoEstilizado onClick={vaParaPokedex}>Vá para a Pokedex</BotaoEstilizado>  
 
-
+      
         <h1>Lista de Pokemons</h1>
 
-        {pokemon.map((poke)=>{
+        {pokemon.map((pokemon)=>{
+       
           return (
-
             
-            <div key={poke.name} >{poke.name}
-              {/* <img alt={pokemon.name} src={pokemon.sprites.other.official-artwork.front_default}/> */}
-           
+            
+            <div key={pokemon.name} >{pokemon.name}
+          
           
               </div>
             
@@ -53,6 +54,21 @@ export const Home = () => {
         </SecaoPokemons>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const BotaoEstilizado=styled.button`
