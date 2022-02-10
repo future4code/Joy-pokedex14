@@ -2,6 +2,7 @@ import React, {  useState,useEffect} from 'react';
 import styled from 'styled-components'
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
+import {PokeCard} from './PokeCard';
 
 export const Home = () => {
 
@@ -14,11 +15,68 @@ export const Home = () => {
 
     const [pokemon, setPokemon] = useState([])
 
-    useEffect(() => { pegarPokemons()}, [])
+    // const [newPoke,setnewPoke] = useState([])
 
-    const pegarPokemons = async () => {
+    
+
+    useEffect(() => { pegarPokemons()   
+
+    }, [])
+
+
+
+      
+    useEffect(() => { 
+
+      
+     pokemon.length && pegaDetalhes()
+    }, [])
+
+    
+    
+    
+    
+    const pegaDetalhes = () => {
+       const newPokemon= []
+      pokemon.forEach((item)=>{ 
+        console.log(item.url)
+
+        axios.get(item.url)
+        .then((res)=> {
+          const newPoke= res.data
+          console.log(res.data)
+          newPokemon.push(newPoke)
+          }).catch((erro)=>{
+        console.log(res.data)
+          
+        })
+        
+      })
+      setPokemon(newPokemon)
+    // for(let poke of lista){
+    //   axios.get(poke.url).then((res)=> {
+    //     console.log(res.data)
+        
+    //     newPoke = res.data
+        
+    //   }).catch((erro)=>{
+    //     console.log(res.data)
+    //   })
+
+    }
+
+
+    
+
+
+
+
+
+
+
+
+    const pegarPokemons =  () => {
   
-      await
         axios.get('https://pokeapi.co/api/v2/pokemon/')
           .then((res) => {
             console.log(res.data.results)
@@ -28,28 +86,32 @@ export const Home = () => {
             console.log(err.response)
           })
     }
-    return (
-        
-        <SecaoPokemons>
 
+   
+
+    
+    const listaRenderizada = pokemon.map((item) => {
+      return <PokeCard pokemon={item}/>
+    });
        
-        <BotaoEstilizado onClick={vaParaPokedex}>Vá para a Pokedex</BotaoEstilizado>  
-
-      
-        <h1>Lista de Pokemons</h1>
-
-        {pokemon.map((pokemon)=>{
+     
        
           return (
             
-            
-            <div key={pokemon.name} >{pokemon.name}
+            <SecaoPokemons>
+            <BotaoEstilizado onClick={vaParaPokedex}>Vá para a Pokedex</BotaoEstilizado>  
+    
+          
+            <h1>Lista de Pokemons</h1>
+    
+          {/* <div key={pokemon.name} >{pokemon.name} */}
+
+             {listaRenderizada}
           
           
-              </div>
-            
-          )
-        })}
+           
+             {/* </div> */}
+          
 
         </SecaoPokemons>
     );

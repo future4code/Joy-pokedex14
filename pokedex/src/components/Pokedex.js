@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react';
 import styled from 'styled-components'
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
+// import {PokeCard} from './components/PokeCard'
 
 export const Pokedex = () => {
 
@@ -20,7 +21,8 @@ export const Pokedex = () => {
         <SecaoPokemons>
              <BotaoEstilizado onClick={()=>history.push('/')}>Volte para a Home</BotaoEstilizado>
         <h1>Pokedex</h1>
-       
+
+      
     
         </SecaoPokemons>
     
