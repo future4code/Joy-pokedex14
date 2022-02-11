@@ -1,124 +1,64 @@
-import React, {  useState,useEffect} from 'react';
-import styled from 'styled-components'
-import axios from 'axios';
-import {useHistory} from 'react-router-dom';
-import {PokeCard} from './PokeCard';
+      import React, {  useState,useEffect} from 'react';
+      import styled from 'styled-components'
+      import axios from 'axios';
+      import {useHistory} from 'react-router-dom';
+      import {PokeCard} from './PokeCard';
 
-export const Home = () => {
-
+      export const Home = () => {
         const history = useHistory()
-  
         const vaParaPokedex = ()=>{
         history.push("/pokedex");
         }
 
+      const [pokemon, setPokemon] = useState([])
+      const [newPoke, setnewPoke] = useState([])
 
-    const [pokemon, setPokemon] = useState([])
-
-    // const [newPoke,setnewPoke] = useState([])
-
-    
-
-    useEffect(() => { pegarPokemons()   
-
-    }, [])
-
-
-
-      
-    useEffect(() => { 
-
-      
-     pokemon.length && pegaDetalhes()
-    }, [])
-
-    
-    
-    
-    
-    const pegaDetalhes = () => {
-       const newPokemon= []
-      pokemon.forEach((item)=>{ 
-        console.log(item.url)
-
+      useEffect(() => {
+      pegarPokemons()  
+      }, [])
+      useEffect(() => {
+      const newPokemon= []
+      pokemon?.forEach((item)=>{
         axios.get(item.url)
         .then((res)=> {
           const newPoke= res.data
-          console.log(res.data)
+          // console.log(res.data)
           newPokemon.push(newPoke)
           }).catch((erro)=>{
-        console.log(res.data)
-          
-        })
-        
+            // console.log(erro)
+        })  
       })
-      setPokemon(newPokemon)
-    // for(let poke of lista){
-    //   axios.get(poke.url).then((res)=> {
-    //     console.log(res.data)
-        
-    //     newPoke = res.data
-        
-    //   }).catch((erro)=>{
-    //     console.log(res.data)
-    //   })
+      setnewPoke(newPokemon)
+      }, [pokemon])
+      console.log(newPoke)
 
-    }
-
-
-    
-
-
-
-
-
-
-
-
-    const pegarPokemons =  () => {
-  
+      const pegarPokemons =  () => {
         axios.get('https://pokeapi.co/api/v2/pokemon/')
           .then((res) => {
             console.log(res.data.results)
             setPokemon(res.data.results)
-
           }).catch((err) => {
             console.log(err.response)
           })
-    }
+      }
 
-   
-
-    
-    const listaRenderizada = pokemon.map((item) => {
+      const listaRenderizada = newPoke.length && newPoke.map((item) => {
       return <PokeCard pokemon={item}/>
-    });
-       
-     
-       
+
+      });
           return (
             
             <SecaoPokemons>
             <BotaoEstilizado onClick={vaParaPokedex}>Vá para a Pokedex</BotaoEstilizado>  
-    
-          
             <h1>Lista de Pokemons</h1>
-    
           {/* <div key={pokemon.name} >{pokemon.name} */}
-
-             {listaRenderizada}
-          
-          
-           
-             {/* </div> */}
-          
-
+            {pokemon.length && listaRenderizada}
+            {/* </div> */}
+            
+            
         </SecaoPokemons>
-    );
-}
-
-
-
+      );
+      }
 
 
 

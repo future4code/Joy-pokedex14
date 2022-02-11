@@ -4,14 +4,21 @@ import axios from "axios";
 export const PokeCard = (props) => {
   
 
-  
+  console.log(props.pokemon)
   return (
     
+    <> 
+    
+    {
+    props.pokemon &&
+    
     <div key={props.pokemon.name} >{props.pokemon.name}
-          <img/>
-          
-            
-    </div>
+   
+    <img src={props.pokemon.sprites.front_default}></img>
+
+       
+    </div> }
+    </>
   );
 };
 
