@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+
 export const PokeCard = (props) => {
-  
 
-  console.log(props.pokemon)
   return (
-    
-    <> 
-    
-    {
-    props.pokemon &&
-    
-    <div key={props.pokemon.name} >{props.pokemon.name}
-   
-    <img src={props.pokemon.sprites.front_default}></img>
-
-       
-    </div> }
+    <>
+      <div key={props?.pokemon?.name} >
+        <p>{props?.pokemon?.name}</p>
+        <img src={props?.sprite}></img>
+      </div>
     </>
   );
 };

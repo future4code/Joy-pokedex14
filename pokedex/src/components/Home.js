@@ -1,64 +1,61 @@
-      import React, {  useState,useEffect} from 'react';
-      import styled from 'styled-components'
-      import axios from 'axios';
-      import {useHistory} from 'react-router-dom';
-      import {PokeCard} from './PokeCard';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components'
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { PokeCard } from './PokeCard';
 
-      export const Home = () => {
-        const history = useHistory()
-        const vaParaPokedex = ()=>{
-        history.push("/pokedex");
-        }
+export const Home = () => {
 
-      const [pokemon, setPokemon] = useState([])
-      const [newPoke, setnewPoke] = useState([])
+  const [pokemon, setPokemon] = useState([])
+  const [newPoke, setnewPoke] = useState({})
 
-      useEffect(() => {
-      pegarPokemons()  
-      }, [])
-      useEffect(() => {
-      const newPokemon= []
-      pokemon?.forEach((item)=>{
-        axios.get(item.url)
-        .then((res)=> {
-          const newPoke= res.data
-          // console.log(res.data)
-          newPokemon.push(newPoke)
-          }).catch((erro)=>{
-            // console.log(erro)
-        })  
+  const history = useHistory()
+  const vaParaPokedex = () => {
+    history.push("/pokedex");
+  }
+
+  useEffect(() => {
+    pegarPokemons()
+  }, [])
+
+  const pegarPokemons = () => {
+    axios.get('https://pokeapi.co/api/v2/pokemon/')
+      .then((res) => {
+        setPokemon(res.data.results)
+      }).catch((err) => {
+        console.log(err.response)
       })
-      setnewPoke(newPokemon)
-      }, [pokemon])
-      console.log(newPoke)
+  }
 
-      const pegarPokemons =  () => {
-        axios.get('https://pokeapi.co/api/v2/pokemon/')
-          .then((res) => {
-            console.log(res.data.results)
-            setPokemon(res.data.results)
-          }).catch((err) => {
-            console.log(err.response)
-          })
-      }
+  useEffect(() => {
+    pokemon?.forEach((item) => {
+      axios.get(item.url).then((res) => {
+        setnewPoke(old => ({ ...old, [res.data.name]: res.data }))
+      })
+    })
+  }, [pokemon])
 
-      const listaRenderizada = newPoke.length && newPoke.map((item) => {
-      return <PokeCard pokemon={item}/>
+  return (
+    <SecaoPokemons>
+      <BotaoEstilizado onClick={vaParaPokedex}>Vá para a Pokedex</BotaoEstilizado>
+      <h1>Lista de Pokemons</h1>
 
-      });
+      <div>
+        {pokemon.length && pokemon?.map((item) => {
+          console.log(item)
           return (
-            
-            <SecaoPokemons>
-            <BotaoEstilizado onClick={vaParaPokedex}>Vá para a Pokedex</BotaoEstilizado>  
-            <h1>Lista de Pokemons</h1>
-          {/* <div key={pokemon.name} >{pokemon.name} */}
-            {pokemon.length && listaRenderizada}
-            {/* </div> */}
-            
-            
-        </SecaoPokemons>
-      );
-      }
+            <PokeCard
+              key={item.name}
+              pokemon={item}
+              sprite={newPoke[item.name]?.sprites?.front_default}
+            />
+
+          )
+        })}
+      </div>
+    </SecaoPokemons>
+  );
+}
 
 
 
@@ -73,7 +70,7 @@
 
 
 
-const BotaoEstilizado=styled.button`
+const BotaoEstilizado = styled.button`
 margin-top:25px;
 background: #fa9e00;
 background-image: -webkit-linear-gradient(top, #fa9e00, #2076ab);
